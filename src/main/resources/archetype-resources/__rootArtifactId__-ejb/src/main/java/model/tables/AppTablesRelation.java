@@ -21,14 +21,14 @@ import org.javabeanstack.model.IAppTablesRelation;
  * @author Jorge Enciso
  */
 @Entity
-@Table(name = "dic_tablarelacion")
+@Table(name = "AppTablesRelation")
 @NamedQueries({
     @NamedQuery(name = "AppTablesRelation.findAll", query = "SELECT d FROM AppTablesRelation d"),
     @NamedQuery(name = "AppTablesRelation.findByEntity", query = 
             "SELECT d FROM AppTablesRelation d"
-                    + " where entityPK = :entityPK "
-                    + " and entityFK = :entityFK "
-                    + " and included = true")
+                    + " where d.entityPK = :entityPK "
+                    + " and d.entityFK = :entityFK "
+                    + " and d.included = true")
                 })
 public class AppTablesRelation extends DataRow implements IAppTablesRelation {
     private static final long serialVersionUID = 1L;
@@ -37,46 +37,42 @@ public class AppTablesRelation extends DataRow implements IAppTablesRelation {
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 30)
-    @Column(name = "externa")
+    @Column(name = "entityFK")
     private String entityFK;
     @Id
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 30)
-    @Column(name = "principal")
+    @Column(name = "entityPK")
     private String entityPK;
     @Id
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 50)
-    @Column(name = "expresion_externa")
+    @Column(name = "fieldsFK")
     private String fieldsFK;
     @Id
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 50)
-    @Column(name = "expresion_principal")
+    @Column(name = "fieldsPK")
     private String fieldsPK;
 
-    @Column(name = "incluir")
+    @Column(name = "included")
     private Boolean included;
-    @Column(name = "marcado")
-    private Boolean marcado;
+
     @Basic(optional = false)
     @NotNull
-    @Column(name = "tiporelacion")
+    @Column(name = "relationType")
     private short relationType;
 
     @Transient
-    @Column(name = "fechacreacion")
+    @Column(name = "dateCreated")
     @Temporal(TemporalType.TIMESTAMP)
-    private Date fechacreacion;
-    @Column(name = "fechamodificacion")
+    private Date dateCreated;
+    @Column(name = "dateModified")
     @Temporal(TemporalType.TIMESTAMP)
-    private Date fechamodificacion;
-    @Column(name = "fechareplicacion")
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date fechareplicacion;
+    private Date dateModified;
 
     public AppTablesRelation() {
     }
@@ -127,8 +123,8 @@ public class AppTablesRelation extends DataRow implements IAppTablesRelation {
     }
 
     @Override
-    public void setIncluded(boolean incluir) {
-        this.included = incluir;
+    public void setIncluded(boolean included) {
+        this.included = included;
     }
 
     @Override
@@ -137,45 +133,29 @@ public class AppTablesRelation extends DataRow implements IAppTablesRelation {
     }
 
     @Override
-    public void setRelationType(short tiporelacion) {
-        this.relationType = tiporelacion;
+    public void setRelationType(short relationType) {
+        this.relationType = relationType;
     }
 
-    public Boolean getMarcado() {
-        return marcado;
+    public Date getDateCreated() {
+        return dateCreated;
     }
 
-    public void setMarcado(Boolean marcado) {
-        this.marcado = marcado;
-    }
-    
-    public Date getFechacreacion() {
-        return fechacreacion;
+    public void setDateCreated(Date dateCreated) {
+        this.dateCreated = dateCreated;
     }
 
-    public void setFechacreacion(Date fechacreacion) {
-        this.fechacreacion = fechacreacion;
+    public Date getDateModified() {
+        return dateModified;
     }
 
-    public Date getFechamodificacion() {
-        return fechamodificacion;
-    }
-
-    public void setFechamodificacion(Date fechamodificacion) {
-        this.fechamodificacion = fechamodificacion;
-    }
-
-    public Date getFechareplicacion() {
-        return fechareplicacion;
-    }
-
-    public void setFechareplicacion(Date fechareplicacion) {
-        this.fechareplicacion = fechareplicacion;
+    public void setDateModified(Date dateModified) {
+        this.dateModified = dateModified;
     }
 
 
     @Override
     public String toString() {
-        return "net.makerapp.model.tables.DicTablarelacion[ dicTablarelacionPK= ]";
+        return "${package}.model.tables.AppTablesRelation[ = ]";
     }
 }

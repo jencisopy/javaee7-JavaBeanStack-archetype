@@ -1,6 +1,5 @@
 package ${package}.model.tables;
 
-
 import java.util.Date;
 import javax.persistence.Basic;
 import javax.persistence.Column;
@@ -27,18 +26,18 @@ import org.javabeanstack.data.DataRow;
  * @author Jorge Enciso
  */
 @Entity
-@Table(name = "systemparam")
+@Table(name = "appsystemparam")
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "AppSystemParam.findAll", query = "SELECT s FROM AppSystemParam s")})
 public class AppSystemParam extends DataRow implements IAppSystemParam {
-
     private static final long serialVersionUID = 1L;
+    
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)            
     @Basic(optional = false)
     @NotNull
-    @Column(name = "idsystemparam")
+    @Column(name = "idappsystemparam")
     private Long idsystemparam;
     @Basic(optional = false)
     @NotNull
@@ -70,28 +69,18 @@ public class AppSystemParam extends DataRow implements IAppSystemParam {
     @Column(name = "valueChar")
     private String valueChar;
     
-    @Transient    
+    @Transient
+    @Column(name = "dateCreated")
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date dateCreated;
+    
     @Basic(optional = false)
     @NotNull
-    @Column(name = "fechacreacion")
+    @Column(name = "dateModified")
     @Temporal(TemporalType.TIMESTAMP)
-    private Date fechacreacion;
+    private Date dateModified;
     
-    @Basic(optional = false)
-    @NotNull
-    @Column(name = "fechamodificacion")
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date fechamodificacion;
-    
-    @Column(name = "fechareplicacion")
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date fechareplicacion;
-    
-    @Size(max = 32)
-    @Column(name = "firma")
-    private String firma;
-    @Size(max = 32)
-    
+
     @Column(name = "appuser")
     private String appuser;
 
@@ -102,14 +91,12 @@ public class AppSystemParam extends DataRow implements IAppSystemParam {
         this.idsystemparam = idsystemparam;
     }
 
-    public AppSystemParam(Long idsystemparam, String systemgroup, String param, String paramDescrip, Character paramType, Date fechacreacion, Date fechamodificacion) {
+    public AppSystemParam(Long idsystemparam, String systemgroup, String param, String paramDescrip, Character paramType) {
         this.idsystemparam = idsystemparam;
         this.systemgroup = systemgroup;
         this.param = param;
         this.paramDescrip = paramDescrip;
         this.paramType = paramType;
-        this.fechacreacion = fechacreacion;
-        this.fechamodificacion = fechamodificacion;
     }
 
     @Override
@@ -202,31 +189,6 @@ public class AppSystemParam extends DataRow implements IAppSystemParam {
         this.valueChar = valueChar;
     }
 
-    public Date getFechacreacion() {
-        return fechacreacion;
-    }
-
-
-    public Date getFechamodificacion() {
-        return fechamodificacion;
-    }
-
-    public Date getFechareplicacion() {
-        return fechareplicacion;
-    }
-
-    public void setFechareplicacion(Date fechareplicacion) {
-        this.fechareplicacion = fechareplicacion;
-    }
-
-    public String getFirma() {
-        return firma;
-    }
-
-    public void setFirma(String firma) {
-        this.firma = firma;
-    }
-
     public String getAppuser() {
         return appuser;
     }
@@ -235,9 +197,24 @@ public class AppSystemParam extends DataRow implements IAppSystemParam {
         this.appuser = appuser;
     }
 
+    public Date getDateCreated() {
+        return dateCreated;
+    }
+
+    public void setDateCreated(Date dateCreated) {
+        this.dateCreated = dateCreated;
+    }
+
+    public Date getDateModified() {
+        return dateModified;
+    }
+
+    public void setDateModified(Date dateModified) {
+        this.dateModified = dateModified;
+    }
 
     @Override
     public String toString() {
-        return "net.makerapp.model.tables.Systemparam[ idsystemparam=" + idsystemparam + " ]";
+        return "${package}.model.tables.Systemparam[ idsystemparam=" + idsystemparam + " ]";
     }
 }

@@ -45,7 +45,7 @@ public class AppResource extends DataRow implements IAppResource {
     @Column(name = "idparent")
     private Long idparent;
 
-    @Column(name = "idobjeto")
+    @Column(name = "idobject")
     private Long idobject;
 
     
@@ -104,19 +104,16 @@ public class AppResource extends DataRow implements IAppResource {
     
     
     @Transient
-    @Column(name = "fechacreacion")
+    @Column(name = "dateCreated")
     @Temporal(TemporalType.TIMESTAMP)
-    private Date fechacreacion;
+    private Date dateCreated;
     
     @Basic(optional = false)
     @NotNull
-    @Column(name = "fechamodificacion")
+    @Column(name = "dateModified")
     @Temporal(TemporalType.TIMESTAMP)
-    private Date fechamodificacion;
+    private Date dateModified;
     
-    @Column(name = "fechareplicacion")
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date fechareplicacion;
     
     @Size(max = 32)
     @Column(name = "appuser")
@@ -138,8 +135,8 @@ public class AppResource extends DataRow implements IAppResource {
         this.name = name;
         this.source = source;
         this.compiled = compiled;
-        this.fechacreacion = fechacreacion;
-        this.fechamodificacion = fechamodificacion;
+        this.dateCreated = fechacreacion;
+        this.dateModified = fechamodificacion;
     }
 
     @Override
@@ -263,20 +260,6 @@ public class AppResource extends DataRow implements IAppResource {
     }
 
     
-    public Date getFechacreacion() {
-        return fechacreacion;
-    }
-
-    public Date getFechamodificacion() {
-        return fechamodificacion;
-    }
-
-
-    public Date getFechareplicacion() {
-        return fechareplicacion;
-    }
-
-
     @Override
     public String getAppuser() {
         return appuser;
@@ -292,7 +275,7 @@ public class AppResource extends DataRow implements IAppResource {
         if (isNullorEmpty(compiled) || processtime == null){
             return false;
         }
-        return processtime.after(fechamodificacion);
+        return processtime.after(dateModified);
     }
 
     public byte[] getBdata() {
@@ -301,13 +284,6 @@ public class AppResource extends DataRow implements IAppResource {
 
     public void setBdata(byte[] bdata) {
         this.bdata = bdata;
-    }
-
-
-    
-    @Override
-    public String toString() {
-        return "net.makerapp.model.tables.Appresource[ idappresource=" + idappresource + " ]";
     }
 
     @Override
@@ -329,4 +305,26 @@ public class AppResource extends DataRow implements IAppResource {
     public void setChecksum(String checkSum) {
         this.checksum = checkSum;
     }
+
+    public Date getDateCreated() {
+        return dateCreated;
+    }
+
+    public void setDateCreated(Date dateCreated) {
+        this.dateCreated = dateCreated;
+    }
+
+    public Date getDateModified() {
+        return dateModified;
+    }
+
+    public void setDateModified(Date dateModified) {
+        this.dateModified = dateModified;
+    }
+    
+    @Override
+    public String toString() {
+        return "${package}.model.tables.Appresource[ idappresource=" + idappresource + " ]";
+    }
+
 }

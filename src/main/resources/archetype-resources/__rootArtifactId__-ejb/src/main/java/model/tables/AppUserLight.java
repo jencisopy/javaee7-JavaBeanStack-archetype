@@ -11,20 +11,22 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.persistence.PrePersist;
+import javax.persistence.PreUpdate;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-
 import org.javabeanstack.data.DataRow;
 import org.javabeanstack.model.IAppCompanyAllowed;
 import org.javabeanstack.model.IAppUser;
 import org.javabeanstack.model.IAppUserMember;
+import org.javabeanstack.util.Dates;
 
 @Entity
-@Table(name = "usuario")
+@Table(name = "appuser")
 public class AppUserLight extends DataRow implements IAppUser {
 
     private static final long serialVersionUID = 1L;
@@ -32,29 +34,29 @@ public class AppUserLight extends DataRow implements IAppUser {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
-    @Column(name = "idusuario")
+    @Column(name = "iduser")
     private Long iduser;
 
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 30)
-    @Column(name = "codigo")
+    @Column(name = "code")
     private String code;
 
     @Basic(optional = false)
     @NotNull(message = "Debe ingresar el nombre de usuario")
     @Size(min = 1, max = 50)
-    @Column(name = "nombre")
+    @Column(name = "fullName")
     private String fullName;
 
-    @Column(name = "clave")
+    @Column(name = "pass")
     private String pass;
 
     @Transient
     private String passConfirm;
 
     @Size(max = 50)
-    @Column(name = "descripcion")
+    @Column(name = "description")
     private String description;
 
     @Size(max = 100)
@@ -66,21 +68,21 @@ public class AppUserLight extends DataRow implements IAppUser {
     private String email2;
     
     @Size(max = 50)
-    @Column(name = "telefono1")
-    private String telefono1;
+    @Column(name = "telephoneNumber")
+    private String telephoneNumber;
 
     @Size(max = 50)
-    @Column(name = "celular1")
-    private String celular1;
+    @Column(name = "telephoneNumber2")
+    private String telephoneNumber2;
 
     @Size(max = 50)
-    @Column(name = "celular2")
-    private String celular2;
+    @Column(name = "telephoneNumber3")
+    private String telephoneNumber3;
     
     @Column(name = "disable")
     private Boolean disable = false;
 
-    @Column(name = "expira")
+    @Column(name = "expiredDate")
     @Temporal(TemporalType.TIMESTAMP)
     private Date expiredDate;
 
@@ -88,17 +90,18 @@ public class AppUserLight extends DataRow implements IAppUser {
     @Column(name = "rol")
     private String rol;
 
-    @Column(name = "tipo")
+    @Column(name = "type")
     private Short type;
+
 
     @Column(name = "fechamodificacion")
     @Temporal(TemporalType.TIMESTAMP)
     private Date fechamodificacion;
 
     @OneToMany(mappedBy = "usermember")
-    private List<AppUserMember> listaUsuarioMiembro = new ArrayList<>();
+    private List<AppUserMember> userMemberList = new ArrayList<>();
 
-    @Column(name = "idempresa")
+    @Column(name = "idcompany")
     private Long idcompany;
 
     public AppUserLight() {
@@ -110,8 +113,8 @@ public class AppUserLight extends DataRow implements IAppUser {
     }
 
     @Override
-    public void setIduser(Long idusuario) {
-        this.iduser = idusuario;
+    public void setIduser(Long iduser) {
+        this.iduser = iduser;
     }
 
     @Override
@@ -123,8 +126,8 @@ public class AppUserLight extends DataRow implements IAppUser {
     }
 
     @Override
-    public void setLogin(String codigo) {
-        this.code = codigo;
+    public void setLogin(String code) {
+        this.code = code;
     }
 
     @Override
@@ -149,8 +152,8 @@ public class AppUserLight extends DataRow implements IAppUser {
     }
 
     @Override
-    public void setFullName(String nombre) {
-        this.fullName = nombre;
+    public void setFullName(String name) {
+        this.fullName = name;
     }
 
     @Override
@@ -175,8 +178,8 @@ public class AppUserLight extends DataRow implements IAppUser {
     }
 
     @Override
-    public void setPassConfirm(String clave2) {
-        this.passConfirm = clave2;
+    public void setPassConfirm(String passConfirm) {
+        this.passConfirm = passConfirm;
     }
 
     @Override
@@ -227,12 +230,12 @@ public class AppUserLight extends DataRow implements IAppUser {
 
     @Override
     public String getAppRol() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        throw new UnsupportedOperationException("Not supported yet."); 
     }
 
     @Override
     public void setAppRol(String appRol) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        throw new UnsupportedOperationException("Not supported yet."); 
     }
 
     @Override
@@ -241,8 +244,8 @@ public class AppUserLight extends DataRow implements IAppUser {
     }
 
     @Override
-    public void setType(Short tipo) {
-        this.type = tipo;
+    public void setType(Short type) {
+        this.type = type;
     }
 
     public Date getFechamodificacion() {
@@ -255,12 +258,12 @@ public class AppUserLight extends DataRow implements IAppUser {
 
     @Override
     public List<IAppUserMember> getUserMemberList() {
-        return (List<IAppUserMember>) (List<?>) listaUsuarioMiembro;
+        return (List<IAppUserMember>) (List<?>) userMemberList;
     }
 
     @Override
-    public void setUserMemberList(List<IAppUserMember> listaUsuarioMiembro) {
-        this.listaUsuarioMiembro = (List<AppUserMember>) (List<?>) listaUsuarioMiembro;
+    public void setUserMemberList(List<IAppUserMember> userMemberList) {
+        this.userMemberList = (List<AppUserMember>) (List<?>) userMemberList;
     }
 
     @Override
@@ -269,8 +272,8 @@ public class AppUserLight extends DataRow implements IAppUser {
     }
 
     @Override
-    public void setIdcompany(Long idempresa) {
-        this.idcompany = idempresa;
+    public void setIdcompany(Long idcompany) {
+        this.idcompany = idcompany;
     }
 
     @Override
@@ -279,10 +282,9 @@ public class AppUserLight extends DataRow implements IAppUser {
     }
 
     @Override
-    public void setAppCompanyAllowedList(List<IAppCompanyAllowed> dicPermisoEmpresaList) {
-        //this.dicPermisoEmpresaList = (List<DicPermisoEmpresa>)(List<?>)dicPermisoEmpresaList;
+    public void setAppCompanyAllowedList(List<IAppCompanyAllowed> companyAllowedList) {
     }
-
+    
     @Override
     public byte[] getAvatar() {
         return null;
@@ -309,30 +311,32 @@ public class AppUserLight extends DataRow implements IAppUser {
         this.email2 = email2;
     }
 
-    public String getTelefono1() {
-        return telefono1;
+    public String getTelephoneNumber() {
+        return telephoneNumber;
     }
 
-    public void setTelefono1(String telefono1) {
-        this.telefono1 = telefono1;
+    public void setTelephoneNumber(String telephoneNumber) {
+        this.telephoneNumber = telephoneNumber;
     }
 
-    public String getCelular1() {
-        return celular1;
+    public String getTelephoneNumber2() {
+        return telephoneNumber2;
     }
 
-    public void setCelular1(String celular1) {
-        this.celular1 = celular1;
-    }
-
-    public String getCelular2() {
-        return celular2;
-    }
-
-    public void setCelular2(String celular2) {
-        this.celular2 = celular2;
+    public void setTelephoneNumber2(String telephoneNumber) {
+        this.telephoneNumber2 = telephoneNumber;
     }
     
+    public String getTelephoneNumber3() {
+        return telephoneNumber3;
+    }
+
+    public void setTelephoneNumber3(String telephoneNumber) {
+        this.telephoneNumber3 = telephoneNumber;
+    }
+    
+    
+
     @Override
     public int hashCode() {
         int hash = 5;
@@ -350,8 +354,8 @@ public class AppUserLight extends DataRow implements IAppUser {
         if (getClass() != obj.getClass()) {
             return false;
         }
-        final AppUserLight other = (AppUserLight) obj;
-        if (!Objects.equals(this.iduser, other.iduser)) {
+        final AppUser other = (AppUser) obj;
+        if (!Objects.equals(this.iduser, other.getIduser())) {
             return false;
         }
         return true;
@@ -359,10 +363,10 @@ public class AppUserLight extends DataRow implements IAppUser {
 
     @Override
     public boolean equivalent(Object o) {
-        if (!(o instanceof AppUserLight)) {
+        if (!(o instanceof AppUser)) {
             return false;
         }
-        AppUserLight obj = (AppUserLight) o;
+        AppUser obj = (AppUser) o;
         return (this.code.trim().equals(obj.getLogin().trim()));
     }
 
@@ -370,4 +374,13 @@ public class AppUserLight extends DataRow implements IAppUser {
     public String toString() {
         return "Usuario{" + "idusuario=" + iduser + ", codigo=" + code + ", nombre=" + fullName + ", clave=" + pass + ", clave2=" + passConfirm + ", descripcion=" + description + ", disable=" + disable + ", expira=" + expiredDate + ", rol=" + rol + ", tipo=" + type + '}';
     }
+    
+    @PreUpdate
+    @PrePersist
+    public void preUpdate() {
+        fechamodificacion = new Date();
+        if (expiredDate == null){
+            expiredDate = Dates.toDate("31/12/9999");
+        }
+    }    
 }

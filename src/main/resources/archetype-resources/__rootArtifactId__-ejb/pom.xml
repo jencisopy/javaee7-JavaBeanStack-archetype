@@ -48,14 +48,14 @@
         </dependency>
         <dependency>
             <groupId>org.javabeanstack</groupId>
-            <artifactId>jbs-business</artifactId>
+            <artifactId>jbs-security</artifactId>
             <version>${javabeanstack.version}</version>
         </dependency>
         <dependency>
-            <groupId>${project.groupId}</groupId>
-            <artifactId>Oym-frame-business</artifactId>
-            <version>${oym.frame.version}</version>
-        </dependency>   
+            <groupId>org.javabeanstack</groupId>
+            <artifactId>jbs-business</artifactId>
+            <version>${javabeanstack.version}</version>
+        </dependency>
         
         <!-- Hibernate -->
         <dependency>

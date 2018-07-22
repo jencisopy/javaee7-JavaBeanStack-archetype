@@ -38,8 +38,8 @@ public class AppXmlSource extends DataRow implements IAppXmlSource {
     @Column(name = "idxmlsource")
     private Long idxmlSource;
 
-    @Column(name = "idobjeto")
-    private Long idObjeto;
+    @Column(name = "idobject")
+    private Long idobject;
     
     @Basic(optional = false)
     @NotNull
@@ -75,18 +75,15 @@ public class AppXmlSource extends DataRow implements IAppXmlSource {
     
 
     @Transient
-    @Column(name = "fechacreacion")
+    @Column(name = "dateCreated")
     @Temporal(TemporalType.TIMESTAMP)
-    private Date fechacreacion;
+    private Date dateCreated;
     
     @Basic(optional = false)
-    @Column(name = "fechamodificacion")
+    @NotNull
+    @Column(name = "dateModified")
     @Temporal(TemporalType.TIMESTAMP)
-    private Date fechamodificacion;
-    
-    @Column(name = "fechareplicacion")
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date fechareplicacion;
+    private Date dateModified;
     
     @Size(max = 32)
     @Column(name = "appuser")
@@ -99,13 +96,11 @@ public class AppXmlSource extends DataRow implements IAppXmlSource {
         this.idxmlSource = idxmlsource;
     }
 
-    public AppXmlSource(Long idxmlsource, String xmlname, String xmlsource, String xmlcompile, Date fechacreacion, Date fechamodificacion) {
+    public AppXmlSource(Long idxmlsource, String xmlname, String xmlsource, String xmlcompile) {
         this.idxmlSource = idxmlsource;
         this.xmlName = xmlname;
         this.xmlSource = xmlsource;
         this.xmlCompiled = xmlcompile;
-        this.fechacreacion = fechacreacion;
-        this.fechamodificacion = fechamodificacion;
     }
 
     @Override
@@ -121,12 +116,12 @@ public class AppXmlSource extends DataRow implements IAppXmlSource {
     
     @Override
     public Long getIdObject() {
-        return idObjeto;
+        return idobject;
     }
 
     @Override
     public void setIdObject(Long idobjeto) {
-        this.idObjeto = idobjeto;
+        this.idobject = idobjeto;
     }
     
     @Override
@@ -189,21 +184,22 @@ public class AppXmlSource extends DataRow implements IAppXmlSource {
         this.referencetime = referencetime;
     }    
 
-    public Date getFechacreacion() {
-        return fechacreacion;
+    public Date getDateCreated() {
+        return dateCreated;
     }
 
-    public Date getFechamodificacion() {
-        return fechamodificacion;
+    public void setDateCreated(Date dateCreated) {
+        this.dateCreated = dateCreated;
     }
 
-    public Date getFechareplicacion() {
-        return fechareplicacion;
+    public Date getDateModified() {
+        return dateModified;
     }
 
-    public void setFechareplicacion(Date fechareplicacion) {
-        this.fechareplicacion = fechareplicacion;
+    public void setDateModified(Date dateModified) {
+        this.dateModified = dateModified;
     }
+
 
     public String getAppuser() {
         return appuser;
@@ -218,12 +214,12 @@ public class AppXmlSource extends DataRow implements IAppXmlSource {
         if (isNullorEmpty(xmlCompiled)){
             return false;
         }
-        return processTime.after(fechamodificacion);
+        return processTime.after(dateModified);
     }
     
 
     @Override
     public String toString() {
-        return "net.makerapp.model.tables.Appxmlsource[ idxmlsource=" + idxmlSource + " ]";
+        return "${package}.model.tables.Appxmlsource[ idxmlsource=" + idxmlSource + " ]";
     }
 }
